@@ -3,71 +3,124 @@ package basicoshedima;
 import java.util.Scanner;
 
 public class PrincipalPersonas {
-	
-		private static void mostrarMenu() {
-		System.out.println("1. CREAR UN ARRAY DE PERSONAS");
-		System.out.println("2. INSERTAR UNA NUEVA PERSONA EN EL ARRAY");
-		System.out.println("3. MOSTRAR LAS PERSONAS QUE HAY EN EL ARRAY");
-		System.out.println("4. MOSTRAR EL NOMBRE Y LA EDAD DE A LA PERSONA DE MAYOR EDAD");
-		System.out.println("5. VACIAR EL ARRAY");
-		System.out.println("6. BORRAR A UNA PERSONA DEL ARRAY POR SU NOMBRE");
-		System.out.println("7. SALIR.");
+
+	private static void mostrarMenu() {
+		System.out.println("1. Crear un array de personas.");
+		System.out.println("2. Insertar una persona en el array.");
+		System.out.println("3. Mostrar las personas que componen el array.");
+		System.out.println("4. Mostrar a la persona de mayor edad.");
+		System.out.println("5. Vaciar el array.");
+		System.out.println("6. Borrar a una persona del array por su nombre.");
+		System.out.println("7. Salir.");
 		System.out.println("");
-		System.out.println("Introduzca opci髇 \n");
+	}
+
+	private static int escogerOpcion() {
+
+		Scanner respuesta = new Scanner(System.in);
+		System.out.println("Introduce una opci贸n, porfaplis:");
+
+		int opcionRespuesta = respuesta.nextInt();
+		System.out.println("Has elegido la opci贸n:" + opcionRespuesta);
+
+		return opcionRespuesta;
+
+	}
 	
-		}
+	private static int ordenarArray() {
 		
-		private static void escogerOpcion() {
-			
-			Scanner respuesta = new Scanner(System.in);
-			System.out.println("Introduce una opci髇, porfaplis:");
-			
-			String opcionRespuesta = respuesta.nextLine();
-			System.out.println("Has elegido la opci髇:" + opcionRespuesta);
-			
-			
-			switch (opcionRespuesta) {
-			
-				
-			case "5"://borrar array
-				
-				array_personas = null; 
+		int posicion = 0;
+		
+		return posicion;
+	}
+
+	public static void main(String[] args) {
+
+		// se declara la var array_personas a null
+		Personas[] array_personas = null;
+
+		// se declara la var opcion a 0
+		int opcion = 0;
+
+		// se declara el max de personas y el contador
+		int MAX_PERSONAS = 5;
+		int contador_personas = 0;
+
+		do {
+
+			// Mostrar el men煤 inicial
+			mostrarMenu();
+
+			// Se guarda la opci贸n escogida en la var opcion
+			opcion = escogerOpcion();
+
+			// Se elige la opci贸n en el men煤
+			switch (opcion) {
+
+			case 1: // crear array
+				array_personas = new Personas[5];// instancio el array
 				break;
-				
-			case "7": //cerrar programa
+
+			case 2: // insertar una persona
+				// TODO limitar la inserci贸n al m谩x del array
+				if (MAX_PERSONAS > contador_personas) {
+					// instancio una persona
+					Personas p1 = new Personas(23, "PEPE");
+					array_personas[contador_personas] = p1;
+					++contador_personas;
+				}
+				break;
+
+			case 3: // mostrar array
+				if (MAX_PERSONAS == contador_personas) {
+					// TODO mirar c贸mo hacerlo con for each
+					for (int i = 0; i < array_personas.length; i++) {
+						System.out.println("-----" + (i + 1) + ". Nombre: " + array_personas[i].getNombre()
+								+ " | Edad: " + array_personas[i].getEdad());
+					}
+				} else {
+					System.out.println(
+							"Aseg煤rate antes de rellenar el array, porfa. Porque si no me da un error *NullPointerException*. Y no queremos errores. Gracias.");
+				}
+				break;
+
+			case 4: // mostrar persona de m谩s edad
+				// TODO bubble sort edad array
+				int posicion = ordenarArray();
+				// imprimir
+				System.out.println(array_personas[posicion].getNombre() + " con edad " + array_personas[posicion].getEdad() + " es el mayor de la lista.");
+				break;
+
+			case 5:// borrar array
+				array_personas = null;
+				break;
+
+			case 6: // borrar persona por nombre
+				// TODO scanner para introducir nombre
+				Scanner respuesta = new Scanner(System.in);
+				System.out.println("Introduce el nombre que quieres borrar:");
+				String nombre = respuesta.nextLine();
+
+				for (int i = 0; i < array_personas.length; i++) {
+					if (array_personas[i].getNombre().indexOf(nombre) > -1) {
+						array_personas[i] = null;
+					}
+				}
+
+				break;
+
+			case 7: // cerrar programa
 				System.out.println("Chau");
 				System.exit(0);
 				break;
 
-			default: //en caso de que no se introduzca opci髇 v醠ida
-				System.out.println("C閚trate, elige una opci髇. Pero bien.");
+			default: // en caso de que no se introduzca opci贸n v谩lida
+				System.out.println("C茅ntrate, elige una opci贸n. Pero bien.");
 				escogerOpcion();
 				break;
 			}
-		}
-		
-		private static void crearArray() {
-			
-			Personas[] array_personas = null;//declaro un variable tipo array de personas
-			array_personas = new Personas[5];//instancio el array 
-		}
-		
-		private static void introducirPersona() {
-			Personas p1 = null;//declaro una varible de tipo persona 
-			p1 = new Personas(23,"PEPE");//instancio una persona
 
-			array_personas[0] = p1;//meto a la persona p1 en la primera posici髇 del array
-			
-			System.out.println(array_personas[0].getEdad());//imprimo la edad de la primera persona del array
-			System.out.println(array_personas[0].getNombre());//imprimo el nombre de la primera persona del array
-		}
+		} while (opcion != 7);
 
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		
-		mostrarMenu();
-		escogerOpcion();
-		crearArray();
-		
 	}
 }
