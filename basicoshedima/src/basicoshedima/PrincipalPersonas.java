@@ -1,10 +1,15 @@
 package basicoshedima;
 
 import java.util.Scanner;
+import java.util.stream.Collectors;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.List;
 
 public class PrincipalPersonas {
 
 	private static void mostrarMenu() {
+		System.out.println("");
 		System.out.println("1. Crear un array de personas.");
 		System.out.println("2. Insertar una persona en el array.");
 		System.out.println("3. Mostrar las personas que componen el array.");
@@ -26,13 +31,7 @@ public class PrincipalPersonas {
 		return opcionRespuesta;
 
 	}
-	
-	private static int ordenarArray() {
-		
-		int posicion = 0;
-		
-		return posicion;
-	}
+
 
 	public static void main(String[] args) {
 
@@ -59,15 +58,30 @@ public class PrincipalPersonas {
 
 			case 1: // crear array
 				array_personas = new Personas[5];// instancio el array
+				System.out.println("Se ha creado un array de 5.");
 				break;
 
 			case 2: // insertar una persona
-				// TODO limitar la inserción al máx del array
 				if (MAX_PERSONAS > contador_personas) {
+					//pedir intro persona por consola
+					String nombre = null;
+					int edad = 0;
+					
+					Scanner respuesta = new Scanner(System.in);
+					System.out.println("Introduce un nombre: ");
+					nombre = respuesta.nextLine();
+					
+					System.out.println("Introduce una edad: ");
+					edad = respuesta.nextInt();
+
+					
 					// instancio una persona
-					Personas p1 = new Personas(23, "PEPE");
+					Personas p1 = new Personas(edad, nombre);
 					array_personas[contador_personas] = p1;
 					++contador_personas;
+					System.out.println("Se ha creado una entrada: " + p1.getNombre() + "-" + p1.getEdad());
+				} else {
+					System.out.println("Array completo.");
 				}
 				break;
 
@@ -85,10 +99,15 @@ public class PrincipalPersonas {
 				break;
 
 			case 4: // mostrar persona de más edad
-				// TODO bubble sort edad array
-				int posicion = ordenarArray();
-				// imprimir
-				System.out.println(array_personas[posicion].getNombre() + " con edad " + array_personas[posicion].getEdad() + " es el mayor de la lista.");
+
+				List<Personas> personas = Arrays.asList(array_personas);
+				Personas persona_mayor = personas.stream()
+						.collect(Collectors.maxBy(Comparator.comparingInt(Personas::getEdad))).get();
+
+				System.out.println("La persona más mayor es: " + persona_mayor.getNombre() + " con "
+						+ persona_mayor.getEdad() + " años.");
+				// https://www.techiedelight.com/find-maximum-minimum-custom-objects-java/
+
 				break;
 
 			case 5:// borrar array
